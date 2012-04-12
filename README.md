@@ -89,6 +89,7 @@ for badPossibility in badPossibilities:
     officerDomain.remove(badPossibility)
 ```
 
+
 After we have defined the domains, let's create the problem and add the variables
 
 ```python
@@ -104,6 +105,7 @@ for officer in officers:
 ```
 
 The other constraints can't be done in the same way as were done above, since these constraints apply over a group of variables. So, we translate the constraint into a function and use the library to apply it to all, or a subset of our variables
+
 
 For the constraint where we have to define a certain number of officers working on a day:
 
@@ -141,7 +143,8 @@ for i in range(0,scheduleDays):
     problem.addConstraint(fulfillmentConstraint, officers)
 ```
 
-For the constraint where we need more senior officers working each day than new recruits (this is a bit tricky):
+
+For the constraint where we need more senior officers working each day than new recruits ( _this is a bit tricky_ ):
 
 ```python
 for i in range(0,scheduleDays):
@@ -171,13 +174,15 @@ for i in range(0,scheduleDays):
             self.problem.addConstraint(constraint, myofficers)
 ```
 
+
 Now, we use the library and solve the problem (this is NP hard, so please be patient)
 
 ```python
 sol = problem.getSolution()
     if sol is not None:
         for key in sol:
-            #print "%s %s" % (key.name, bin(sol[key]))
+            # print out the names and solution schedule
+            print "%s %s" % (key.name, bin(sol[key]))
     else:
         # no solution called, so recursively call self
         print "No solution found, trying again."
