@@ -40,18 +40,28 @@ So how do we translate a typical CSP to python to solve? Consider some trivial C
 ```
 
 ###How do we model a schedule?###
-* First, define the problem
+First, define the problem:
+
 * Officers can either work, or not work on a day
+
 * A schedule consists of seven days
+
 * Officers cannot work more than 3 days off in a row
+
 * We need a certain number of officers working on a day
+
 * We always need more senior officers working each day than new recruits
 
 ###CSP's, what are they again?###
-* They are: **variables**, **domains**, **constraints**
-* let's break the problem down
+
+They are: **variables**, **domains**, **constraints**
+
+Let's break the problem down
+
 * **variables** - officer schedules
+
 * **domains** - possible schedules
+
 * **constraints** - the requirements we mentioned above
 
 ###Translating to Code###
@@ -59,6 +69,7 @@ So how do we translate a typical CSP to python to solve? Consider some trivial C
 We can represent each officer's schedule with 7 bits, which can be translated into integers for our convenience (binary 1000000 -> decimal 64)
 
 So, minus the constraints, the possibility for each schedule is all integers from 0 to 2^7-1
+
 ```python
 scheduleDays = 7
 officerDomain = range(0, 2**scheduleDays-1)
@@ -67,6 +78,7 @@ officerDomain = range(0, 2**scheduleDays-1)
 Much like the algebra problem, we first figure out what possible schedules are available, ruling out ones that obviously violate the constraints
 
 Even before entering any constraints into the library, we can take some possibilities out, for example, all schedules with more than 3 consecutive working days can be removed:
+
 ```python
 consecutiveWorkingDaysLimit = 3
 badPossibilities = []
@@ -78,6 +90,7 @@ for badPossibility in badPossibilities:
 ```
 
 After we have defined the domains, let's create the problem and add the variables
+
 ```python
 solver = MinConflictsSolver()
 problem = Problem(solver)
@@ -93,6 +106,7 @@ for officer in officers:
 The other constraints can't be done in the same way as were done above, since these constraints apply over a group of variables. So, we translate the constraint into a function and use the library to apply it to all, or a subset of our variables
 
 For the constraint where we have to define a certain number of officers working on a day:
+
 ```python
 
 # used to conver bin output to something more usable in the lambdas
@@ -128,6 +142,7 @@ for i in range(0,scheduleDays):
 ```
 
 For the constraint where we need more senior officers working each day than new recruits (this is a bit tricky):
+
 ```python
 for i in range(0,scheduleDays):
     P3s = [officers if officer.rank == '3']
@@ -157,6 +172,7 @@ for i in range(0,scheduleDays):
 ```
 
 Now, we use the library and solve the problem (this is NP hard, so please be patient)
+
 ```python
 sol = problem.getSolution()
     if sol is not None:
