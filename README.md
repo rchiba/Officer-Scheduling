@@ -1,3 +1,26 @@
+#Notes on the code above#
+
+###Files###
+
+* `lapd.sql` - the sql file that builds the mysql db
+
+* `schedulePull.py` - a python module that interacts with the db
+
+* `scheduler.py` - does the scheduling
+
+* `scheduleUnitTests.py` - tests the scheduler
+
+* `ranker.py` (unfinished) - ranks the schedules based on some heuristic
+
+###To run, ###
+
+* run mysqld: `mysqld`
+
+* setup a mysql database using the lapd.sql: `mysql -u root < lapd.sql`
+
+* run the unit tests - `python scheduleUnitTests.py` 
+
+
 #Scheduling police officers using a CSP solver#
 
 ###Constraint Satisfaction Problems, What Are They?###
