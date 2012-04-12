@@ -2,20 +2,25 @@
 
 ###Constraint Satisfaction Problems, What Are They?###
 * Here's a textbook chapter that does a good job of explaining things in math language: http://aima.cs.berkeley.edu/newchap05.pdf
-* CSP's involve 3 main concepts: variables, domains, and constraints
-* variables are the pieces of data that you want to solve
-* domains are the possible outcomes that the pieces of data could be
-* constraints are ways to describe what the variables cannot be
+* CSP's involve 3 main concepts: **variables, domains, and constraints**
+* **variables** are the units of data that you want to solve for
+* **domains** are the possible outcomes that the units of data could be
+* **constraints** are ways to describe what the variables can/cannot be
 
 ###Tools Used###
 * Python Constraint Solver (http://labix.org/python-constraint)
 
 ###Example of a simple CSP (taken from python-constraint)###
 So how do we translate a typical CSP to python to solve? Consider some trivial CSP:
+
 * We have two variables, `a` and `b`
+
 * We have a constraint, that `b` must be twice the value of `a`
+
 * `a` can be 1, 2, or 3
+
 * `b` can be 4, 5, or 6
+
 ```python
 
 >>> from constraint import *
