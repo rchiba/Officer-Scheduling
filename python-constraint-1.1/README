@@ -1,0 +1,140 @@
+===================
+ python-constraint
+===================
+:Author: Gustavo Niemeyer
+:Contact: gustavo@niemeyer.net
+:Revision: $Rev: 14368 $
+:Date: $Date: 2005-07-07 04:34:30 -0300 (Thu, 07 Jul 2005) $
+
+.. contents::
+
+
+--------
+Overview
+--------
+
+**python-constraint** [1]_ is a Python module offering solvers for
+Constraint Solving Problems (CSPs) over finite domains in simple
+and pure Python. CSP is class of problems which may be represented
+in terms of variables (`a`, `b`, ...), domains (`a in [1, 2, 3]`, ...),
+and constraints (`a < b`, ...).
+
+.. [1] http://codespeak.net/~niemeyer/constraint/
+
+--------
+Examples
+--------
+
+Basic
+-----
+
+Here is a basic interactive example::
+ 
+    >>> from constraint import *
+    >>> problem = Problem()
+    >>> problem.addVariable("a", [1,2,3])
+    >>> problem.addVariable("b", [4,5,6])
+    >>> problem.getSolutions()
+    [{'a': 3, 'b': 6}, {'a': 3, 'b': 5}, {'a': 3, 'b': 4},
+     {'a': 2, 'b': 6}, {'a': 2, 'b': 5}, {'a': 2, 'b': 4},
+     {'a': 1, 'b': 6}, {'a': 1, 'b': 5}, {'a': 1, 'b': 4}]
+    
+    >>> problem.addConstraint(lambda a, b: a*2 == b,
+                              ("a", "b"))
+    >>> problem.getSolutions()
+    [{'a': 3, 'b': 6}, {'a': 2, 'b': 4}]
+    
+    >>> problem = Problem()
+    >>> problem.addVariables(["a", "b"], [1, 2, 3])
+    >>> problem.addConstraint(AllDifferentConstraint())
+    >>> problem.getSolutions()
+    [{'a': 3, 'b': 2}, {'a': 3, 'b': 1}, {'a': 2, 'b': 3},
+     {'a': 2, 'b': 1}, {'a': 1, 'b': 2}, {'a': 1, 'b': 3}]
+
+
+Rooks
+-----
+
+Here is an example solving the classical rooks problem::
+
+    problem = Problem()
+    numpieces = 8
+    cols = range(numpieces)
+    rows = range(numpieces)
+    problem.addVariables(cols, rows)
+    for col1 in cols:
+        for col2 in cols:
+            if col1 < col2:
+                problem.addConstraint(lambda row1, row2: row1 != row2,
+                                      (col1, col2))
+    solutions = problem.getSolutions()
+
+
+Magic squares
+-------------
+
+And here is an example solving a 4x4 magic square::
+
+    problem = Problem()
+    problem.addVariables(range(0, 16), range(1, 16+1))
+    problem.addConstraint(AllDifferentConstraint(), range(0, 16))
+    problem.addConstraint(ExactSumConstraint(34), [0,5,10,15])
+    problem.addConstraint(ExactSumConstraint(34), [3,6,9,12])
+    for row in range(4):
+        problem.addConstraint(ExactSumConstraint(34),
+                              [row*4+i for i in range(4)])
+    for col in range(4):
+        problem.addConstraint(ExactSumConstraint(34),
+                              [col+4*i for i in range(4)])
+    solutions = problem.getSolutions()
+
+
+--------
+Features
+--------
+
+The following solvers are available:
+
+- Backtracking solver
+- Recursive backtracking solver
+- Minimum conflicts solver
+
+Predefined constraint types currently available:
+
+- FunctionConstraint
+- AllDifferentConstraint
+- AllEqualConstraint
+- ExactSumConstraint
+- MaxSumConstraint
+- MinSumConstraint
+- InSetConstraint
+- NotInSetConstraint
+- SomeInSetConstraint
+- SomeNotInSetConstraint
+
+
+-------------
+Documentation
+-------------
+
+There's documentation for the module at:
+
+- http://codespeak.net/~niemeyer/constraint/doc/
+
+
+--------
+Download
+--------
+
+**python-constraint** may be found at the following
+address:
+
+- http://codespeak.net/~niemeyer/constraint/files/
+
+---------------------
+Subversion repository
+---------------------
+
+Available at:
+
+- http://codespeak.net/svn/user/niemeyer/constraint/

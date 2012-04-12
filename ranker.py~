@@ -1,0 +1,10 @@
+
+
+
+
+from scheduleRyo import Officer
+
+
+def main():
+	exampleSchedule = []
+	exampleSchedule[Officer("serial","name","car","schedule","rank")] = "01001001"

@@ -1,0 +1,3 @@
+﻿GenSchedule gets #1 schedule when updating
+AltSchedules gets 1-X schedules concatenated by a delimiter (,)
+	Could also have a schedule per field (AltSchedule1, AltSchedule2, etc)
